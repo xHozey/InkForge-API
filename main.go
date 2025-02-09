@@ -1,6 +1,8 @@
 package main
 
 import (
+	"inkforge/api/controllers"
+	"inkforge/database/migrations"
 	"inkforge/setup"
 
 	"github.com/gin-gonic/gin"
@@ -9,12 +11,11 @@ import (
 func init() {
 	setup.LoadEnvVariables()
 	setup.ConnectDatabase()
+	migrations.MigrateTables()
 }
 
 func main() {
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{"HELLO": "WORLD"})
-	})
+	r.POST("/api/signup", controllers.SignUp)
 	r.Run()
 }
